@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eatender 產品探索 — 示意稿</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red:         #C55A11;
+    --orange:      #EC8004;
+    --pink:        #D4845A;
+    --pink-light:  #F5C89A;
+    --nav-bg:      #6B2D00;
+    --nav-dark:    #4A1E00;
+    --card-bg:     #ffffff;
+    --page-bg:     #FAF0E6;
+    --text-main:   #2A1A00;
+    --text-muted:  #7A5030;
+    --text-light:  #B08060;
+    --border:      #E8D5B0;
+    --border-mid:  #D4A870;
+    --radius-sm:   6px;
+    --radius-md:   10px;
+    --radius-lg:   16px;
+  }
+
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background: var(--page-bg);
+    color: var(--text-main);
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--nav-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,.25);
+  }
+  .nav-logo {
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: .04em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-logo span { color: var(--pink-light); }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-links a {
+    color: rgba(255,255,255,.78);
+    text-decoration: none;
+    font-size: 15px;
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    transition: background .15s, color .15s;
+  }
+  .nav-links a:hover { color: #fff; background: rgba(255,255,255,.12); }
+  .nav-links a.active {
+    background: var(--orange);
+    color: #fff;
+    font-weight: 600;
+  }
+  .nav-badge {
+    font-size: 10px;
+    background: var(--pink-light);
+    color: var(--nav-dark);
+    padding: 1px 6px;
+    border-radius: 20px;
+    font-weight: 700;
+    vertical-align: 2px;
+    margin-left: 2px;
+  }
+
+  /* DRAFT BANNER */
+  .draft-banner {
+    background: #FEF3DC;
+    border-bottom: 1px solid #F5C060;
+    padding: 10px 32px;
+    font-size: 15px;
+    color: #6B3800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .draft-banner strong { font-weight: 600; color: var(--orange); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(120deg, var(--nav-dark) 0%, var(--nav-bg) 60%, #b03040 100%);
+    padding: 40px 32px 36px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .hero-text h1 { font-size: 32px; font-weight: 700; color: #fff; letter-spacing: .03em; }
+  .hero-text h1 span { color: var(--pink-light); }
+  .hero-text p { color: rgba(255,255,255,.72); font-size: 17px; margin-top: 6px; max-width: 480px; }
+  .hero-count { text-align: right; flex-shrink: 0; }
+  .hero-count .num { font-size: 42px; font-weight: 700; color: var(--orange); line-height: 1; }
+  .hero-count .label { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 4px; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .filter-label { font-size: 16px; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
+  .filter-group { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
+  select {
+    font-size: 16px !important;
+    appearance: none;
+    background: var(--page-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a4a50' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-sm);
+    padding: 8px 32px 8px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color .15s;
+    min-width: 160px;
+  }
+  select:focus { outline: none; border-color: var(--red); }
+  .btn-reset {
+    background: none;
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+    color: var(--text-muted);
+    padding: 7px 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color .15s, color .15s;
+  }
+  .btn-reset:hover { border-color: var(--red); color: var(--text-main); }
+  .result-count { font-size: 16px; color: var(--text-muted); white-space: nowrap; margin-left: auto; }
+  .result-count strong { color: var(--red); }
+
+  /* GRID */
+  .grid-wrap { padding: 24px 32px 48px; }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+  }
+  .product-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s, transform .15s;
+    position: relative;
+  }
+  .product-card:hover {
+    border-color: var(--red);
+    box-shadow: 0 4px 18px rgba(232,122,130,.2);
+    transform: translateY(-2px);
+  }
+  .card-img-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    background: #fce8ea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-img-placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FDE8CC, #F5C89A);
+    flex-direction: column;
+    gap: 6px;
+  }
+  .card-img-placeholder span {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--red);
+    letter-spacing: .1em;
+  }
+  .card-award {
+    position: absolute;
+    top: 7px; left: 7px;
+    background: var(--orange);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .card-body { padding: 9px 10px 11px; }
+  .card-category { font-size: 14px; color: var(--text-light); margin-bottom: 3px; }
+  .card-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.7em;
+  }
+  .card-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 7px; }
+  .badge { font-size: 12px; padding: 2px 7px; border-radius: 20px; line-height: 1.5; white-space: nowrap; }
+  .badge-nutrition { background: #FEF2E0; color: #8B3A00; border: 1px solid #F5B84A; }
+  .badge-texture   { background: #FEF2E0; color: #7A4000; border: 1px solid #E8A050; }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); display: none; }
+  .empty-state p { font-size: 15px; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.48);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    animation: modal-in .18s ease;
+  }
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(12px) scale(.97); }
+    to   { opacity: 1; transform: none; }
+  }
+  .modal-head {
+    display: flex;
+    gap: 14px;
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .modal-head-img {
+    width: 140px; height: 140px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    overflow: hidden;
+    background: #fce8ea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .modal-head-img img { width: 100%; height: 100%; object-fit: cover; }
+  .modal-head-img span { font-size: 15px; font-weight: 600; color: var(--red); letter-spacing: .08em; }
+  .modal-head-info { flex: 1; }
+  .modal-award-tag {
+    display: inline-block;
+    background: var(--orange);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    margin-bottom: 5px;
+  }
+  .modal-head-name { font-size: 24px; font-weight: 700; line-height: 1.3; color: var(--text-main); }
+  .modal-head-company { font-size: 17px; color: var(--text-muted); margin-top: 3px; }
+  .modal-head-category { font-size: 16px; color: var(--red); font-weight: 500; margin-top: 4px; }
+  .modal-close {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: none;
+    font-size: 22px; color: var(--text-light);
+    cursor: pointer; line-height: 1; padding: 2px 4px;
+  }
+  .modal-close:hover { color: var(--text-main); }
+  .modal-body { padding: 18px 20px; }
+  .modal-section-label {
+    font-size: 14px; font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: 8px;
+  }
+  .cert-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .cert-pill {
+    display: flex; align-items: center; gap: 5px;
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 17px; font-weight: 500;
+  }
+  .cert-pill.nutrition { background: #FEF2E0; color: #8B3A00; border: 1px solid #F5B84A; }
+  .cert-pill.texture   { background: #FEF2E0; color: #7A4000; border: 1px solid #E8A050; }
+  .cert-pill svg { flex-shrink: 0; }
+  .no-cert { font-size: 17px; color: var(--text-muted); margin-bottom: 20px; }
+  .channel-note {
+    background: #FEF6E8;
+    border: 1px solid #F5B84A;
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    font-size: 17px;
+    color: #6B3800;
+    margin-bottom: 20px;
+  }
+  .channel-note strong { font-weight: 600; color: var(--orange); }
+  .channel-demo { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .channel-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #fff0e0; color: #b05800;
+    border: 1px solid #f8c880; border-radius: 20px;
+    font-size: 12px; padding: 4px 11px;
+    font-weight: 500; opacity: .55;
+  }
+  .modal-foot {
+    padding: 14px 20px 18px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end;
+  }
+  .btn-cert {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--red); color: #fff;
+    border: none; border-radius: var(--radius-sm);
+    font-size: 17px; font-weight: 700;
+    padding: 11px 22px; cursor: pointer;
+    font-family: inherit; transition: background .15s;
+    text-decoration: none;
+  }
+  .btn-cert:hover { background: #c0000e; }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .nav-links a { font-size: 12px; padding: 5px 9px; }
+    .hero { padding: 28px 16px 24px; }
+    .filter-bar { padding: 14px 16px; }
+    .grid-wrap { padding: 16px 16px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="draft-banner">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  <strong>示意稿</strong>：此頁面為「產品探索」功能示意，使用 2025–2026 年入選產品資料（共 285 筆）。
+</div>
+
+<nav>
+  <div class="nav-logo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    <span>Eatender</span> 銀髮友善食品
+  </div>
+  <div class="nav-links">
+    <a href="#">最新消息</a>
+    <a href="#">販售店商</a>
+    <a href="#" class="active">產品探索 <span class="nav-badge">NEW</span></a>
+    <a href="#">好站連結</a>
+    <a href="#">關於我們</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-text">
+    <h1>產品探索</h1>
+    <p>瀏覽歷年銀髮友善食品評選入選產品，可依不同項目進行篩選。</p>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">篩選條件</span>
+  <div class="filter-group">
+    <select id="filter-nutrition">
+      <option value="">Eatender 營養友善符合性（全部）</option>
+      <option value="蛋白質及熱量">蛋白質及熱量</option>
+      <option value="膳食纖維">膳食纖維</option>
+      <option value="鈣">鈣</option>
+      <option value="none">未符合營養友善性</option>
+    </select>
+    <select id="filter-texture">
+      <option value="">Eatender 質地規格符合性（全部）</option>
+      <option value="容易咀嚼">容易咀嚼</option>
+      <option value="牙齦咀嚼">牙齦咀嚼</option>
+      <option value="舌頭壓碎">舌頭壓碎</option>
+      <option value="無須咀嚼">無須咀嚼</option>
+      <option value="未達質地規格">未達質地規格</option>
+    </select>
+    <select id="filter-channel">
+      <option value="">合作通路（全部）</option>
+      <option value="coming" disabled>— 待業者報名後啟用 —</option>
+    </select>
+    <select id="filter-category">
+      <option value="">產品類別（全部）</option>
+    </select>
+    <select id="filter-year">
+      <option value="">獲選年份（全部）</option>
+      <option value="2026">2026 年</option>
+      <option value="2025">2025 年</option>
+    </select>
+  </div>
+  <button class="btn-reset" onclick="resetFilters()">清除篩選</button>
+  <div class="result-count">共 <strong id="result-num">135</strong> 筆結果</div>
+</div>
+
+<div class="grid-wrap">
+  <div class="product-grid" id="product-grid"></div>
+  <div class="empty-state" id="empty-state">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e8a0a8" stroke-width="1.5" style="margin:0 auto 12px;display:block"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <p>沒有符合條件的產品，請調整篩選條件。</p>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-head-img" id="modal-img-wrap"></div>
+      <div class="modal-head-info">
+        <div id="modal-award"></div>
+        <div class="modal-head-name" id="modal-name"></div>
+        <div class="modal-head-company" id="modal-company"></div>
+        <div class="modal-head-category" id="modal-category"></div>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <div id="modal-cert-section"><div class="modal-section-label">銀髮友善性</div>
+      <div class="cert-pills" id="modal-certs"></div></div>
+      <div id="modal-channel-section">
+        <div class="modal-section-label">合作通路</div>
+        <div id="modal-channels-content"></div>
+      </div>
+    </div>
+    <div class="modal-foot" id="modal-foot">
+      <a href="#" class="btn-cert" id="modal-detail-link">查看產品介紹</a>
+    </div>
+  </div>
+</div>
+
+<script>const PRODUCTS = [{"id":"A02","company":"統一超食代股份有限公司","name":"御料小館富麗米白飯","category":"主食","year":2026,"nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772613095_127203909.jpg","year":2026},{"id":"A03","company":"統一超食代股份有限公司","name":"御料小館越光米白飯","category":"主食","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772613208_127203909.jpg","year":2026},{"id":"A04","company":"米大師美食生技股份有限公司","name":"常溫熟飯-紫米瓜瓜飯","category":"主食","nutrition":"","texture":"容易咀嚼","award":"質地友善獎","img":"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAGQAZADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5/ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiig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IOA0h9wlHtI9xe0j3NKishvENqAcRzE/QD+tRP4kQfctmP8AvPj+lT7WHcXtYdzcorm38RXJ+5FEn4E1Ul1a+lBBuHUHsny/yqXXj0JdePQ62R0iXdI6oPVjj+dUJtasouBIZD6Rr/U1yrOztuZix9Sc02s3XfQzddvY3ZfEROfKtwPd2z/Kqcmt3r9GRP8AdUf1rOorJzk+pk5yfUtPqN45ybmXrnhsfyqB5XkOXdmPqxzTKKm5NwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP//Z","year":2026,"awardUrl":"https://eatender.firdi.org.tw/award/detail?id=15250","channels":[{"name":"momo 購物網","url":"https://www.momoshop.com.tw/goods/GoodsDetail.jsp?i_code=14732197"},{"name":"米大師官網","url":"https://www.mastermi.tw/products/sweet-potato-rice"}]},{"id":"A06","company":"米大師美食生技股份有限公司","name":"大甲芋頭油飯","category":"主食","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772529417_4114.jpg","year":2026},{"id":"A08","company":"端強實業股份有限公司","name":"百仕可介護全營養南瓜雞茸燉飯","category":"主食","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770881617_3970.jpg","year":2026},{"id":"A10","company":"鮮湧企業股份有限公司","name":"松露奶油海鮮炊飯","category":"主食","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"金饌獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771747798_127200621.jpg","year":2026},{"id":"A11","company":"鮮湧企業股份有限公司","name":"麻油雞炊飯","category":"主食","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"金饌獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771747798_127200621.jpg","year":2026},{"id":"A12","company":"鮮湧企業股份有限公司","name":"芋頭鮮魚米粉","category":"主食","nutrition":"","texture":"容易咀嚼","award":"金饌獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771747798_127200621.jpg","year":2026},{"id":"A15","company":"大甲佳旭生技股份有限公司","name":"芙蓉燕麥粥","category":"主食","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770948284_127203884.jpg","year":2026},{"id":"A17","company":"慶豐冷凍分切廠","name":"古早味芋香煲粥","category":"主食","nutrition":"","texture":"容易咀嚼","award":"","img":"","year":2026},{"id":"A18","company":"阿甘薯叔有限公司","name":"冰烤地瓜","category":"主食","nutrition":"","texture":"未達容易咀嚼","award":"包裝友善獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770282537_127203894.jpg","year":2026},{"id":"B01","company":"二十一世紀生活事業股份有限公司","name":"21Plus椒麻雞胸肉","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"B02","company":"二十一世紀生活事業股份有限公司","name":"21Plus剝皮辣椒雞胸","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"B03","company":"二十一世紀生活事業股份有限公司","name":"21PlusXBEING fit桃木燻雞胸肉","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772608137_127203900.jpg","year":2026},{"id":"B04","company":"大成長城企業股份有限公司","name":"法式香草嫩雞胸","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"B05","company":"大成長城企業股份有限公司","name":"舒迷雞胸肉(日式塩糀)","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"B06","company":"大成長城企業股份有限公司","name":"舒迷輕食嫩雞胸-沙漠湖鹽","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"B07","company":"台灣卜蜂企業股份有限公司","name":"香蔥經典嫩雞胸","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772707249_127201243.png","year":2026},{"id":"B08","company":"台灣卜蜂企業股份有限公司","name":"義式經典嫩雞胸","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772707581_127201243.png","year":2026},{"id":"B09","company":"台灣卜蜂企業股份有限公司","name":"義式香草雞胸肉","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772516614_127203954.png","year":2026},{"id":"B10","company":"台灣農畜產工業股份有限公司農科分公司","name":"胡麻味噌雞胸肉","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772677926_127200954.jpg","year":2026},{"id":"B11","company":"統一企業股份有限公司","name":"博客海鹽嫩雞胸","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"B12","company":"吉康食品股份有限公司","name":"家傳滋補醉雞腿","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1769664279_127200493.jpg","year":2026},{"id":"B13","company":"聯夏食品工業股份有限公司","name":"U+ 金香咖哩雞肉","category":"主菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771814065_199.jpg","year":2026},{"id":"B15","company":"聯夏食品工業股份有限公司","name":"U+ 紅燒滷肉蛋","category":"主菜","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"質地友善獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771814065_199.jpg","year":2026},{"id":"C05","company":"超秦企業股份有限公司","name":"肯瓊風味烤雞胸棒","category":"配菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772509567_127203929.jpg","year":2026},{"id":"C08","company":"吉康食品股份有限公司","name":"日式燕麥茶碗蒸","category":"配菜","nutrition":"蛋白質及熱量","texture":"舌頭壓碎","award":"商業潛力獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1769664279_127200493.jpg","year":2026},{"id":"C09","company":"吉康食品股份有限公司","name":"田園燕麥蒸蛋","category":"配菜","nutrition":"","texture":"舌頭壓碎","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1769664279_127200493.jpg","year":2026},{"id":"C10","company":"連合發企業股份有限公司","name":"阿甘剝皮辣椒蒸蛋","category":"配菜","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770800435_127201653.png","year":2026},{"id":"C12","company":"保證責任雲林縣新湖合作農場","name":"韓式麻藥溏心蛋","category":"配菜","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"","img":"","year":2026},{"id":"C13","company":"上品王食品股份有限公司","name":"石安牧場溫泉蛋","category":"配菜","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772519845_127203904.jpg","year":2026},{"id":"C14","company":"上品王食品股份有限公司","name":"石安牧場香滷蛋白丁","category":"配菜","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772520774_127203904.jpg","year":2026},{"id":"C15","company":"加茂食品有限公司","name":"蛋小白雞蛋干-醬香口味","category":"配菜","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"商業潛力獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771831145_127203834.png","year":2026},{"id":"C16","company":"有限責任台灣主婦聯盟生活消費合作社","name":"滷蛋白-沙茶口味","category":"配菜","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772697273_127200519.jpg","year":2026},{"id":"C18","company":"佳醫創照健康股份有限公司","name":"鮪魚豆腐_100公克X 4人份","category":"配菜","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1769486034_127200459.png","year":2026},{"id":"C19","company":"佳醫創照健康股份有限公司","name":"花生麵筋_80公克X 5人份","category":"配菜","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1769486034_127200459.png","year":2026},{"id":"C20","company":"佳醫創照健康股份有限公司","name":"瓜仔雞肉_100公克X 4人份","category":"配菜","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"營養友善獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1769486034_127200459.png","year":2026},{"id":"C21","company":"青葉食品工業股份有限公司","name":"青葉肉燥飯料","category":"配菜","nutrition":"","texture":"容易咀嚼","award":"","img":"","year":2026},{"id":"C22","company":"青葉食品工業股份有限公司","name":"青葉辣味肉醬","category":"配菜","nutrition":"","texture":"容易咀嚼","award":"","img":"","year":2026},{"id":"C24","company":"大成長城企業股份有限公司","name":"大成鮮醇雞肉鬆","category":"配菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"C25","company":"溪和食品有限公司","name":"旗魚鬆","category":"配菜","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771416234_127201679.png","year":2026},{"id":"C26","company":"誠輝貿易股份有限公司","name":"減糖減鹽100%純鬼頭刀魚鬆(寶貝魚鬆)","category":"配菜","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772587801_127203831.jpg","year":2026},{"id":"C27","company":"廣達香食品股份有限公司","name":"純豬肉鬆","category":"配菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"C28","company":"廣興肉脯店","name":"廣興老牌豬肉酥","category":"配菜","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771919317_127201810.jpg","year":2026},{"id":"D02","company":"鮮湧企業股份有限公司","name":"雞蓉濃湯","category":"湯品","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771747798_127200621.jpg","year":2026},{"id":"D03","company":"鮮湧企業股份有限公司","name":"蓮子腸四神湯","category":"湯品","nutrition":"","texture":"容易咀嚼","award":"金饌獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771747798_127200621.jpg","year":2026},{"id":"E01","company":"統一企業股份有限公司","name":"Dr. Milker極鮮乳脂肪無調整","category":"乳品","nutrition":"鈣","texture":"純液體","award":"","img":"","year":2026},{"id":"E02","company":"慕渴股份有限公司","name":"鮮乳坊幸運兒鮮乳","category":"乳品","nutrition":"鈣","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772529376_127200776.jpg","year":2026},{"id":"E03","company":"慕渴股份有限公司","name":"鮮乳坊許慶良鮮乳","category":"乳品","nutrition":"鈣","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772529359_127200776.jpg","year":2026},{"id":"E04","company":"慕渴股份有限公司","name":"鮮乳坊嘉明鮮乳","category":"乳品","nutrition":"鈣","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772678905_127200776.jpg","year":2026},{"id":"E05","company":"慕渴股份有限公司","name":"鮮乳坊桂芳鮮乳","category":"乳品","nutrition":"鈣","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772530762_127200776.jpg","year":2026},{"id":"E06","company":"慕渴股份有限公司","name":"乳研所 祝好眠營養牛乳","category":"乳品","nutrition":"","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772530747_127200776.jpg","year":2026},{"id":"E07","company":"義美食品股份有限公司","name":"義美無乳糖牛乳(保久乳)","category":"乳品","nutrition":"鈣","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772760664_4107.jpg","year":2026},{"id":"E08","company":"義美食品股份有限公司","name":"義美堅果牛乳","category":"乳品","nutrition":"","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772760681_4107.jpg","year":2026},{"id":"E09","company":"光泉牧場股份有限公司","name":"光泉鮮乳-成分無調整","category":"乳品","nutrition":"鈣","texture":"純液體","award":"","img":"","year":2026},{"id":"E10","company":"光泉牧場股份有限公司","name":"頂級鮮奶優酪-莓果穀物脆片","category":"乳品","nutrition":"","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"E11","company":"味全食品工業股份有限公司","name":"簡單點鮮奶優格","category":"乳品","nutrition":"","texture":"無須咀嚼","award":"","img":"","year":2026},{"id":"F01","company":"天晴興業有限公司","name":"天晴彩虹蔬果昔—綠色高纖蔬果昔","category":"飲品(即飲)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770857735_3977.jpg","year":2026},{"id":"F02","company":"天晴興業有限公司","name":"天晴彩虹蔬果昔—紅色力量蔬果昔","category":"飲品(即飲)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770857735_3977.jpg","year":2026},{"id":"F03","company":"天晴興業有限公司","name":"天晴彩虹蔬果昔—橘色活力蔬果昔","category":"飲品(即飲)","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770857735_3977.jpg","year":2026},{"id":"F04","company":"天晴興業有限公司","name":"天晴彩虹蔬果昔—白色平衡蔬果昔","category":"飲品(即飲)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770857735_3977.jpg","year":2026},{"id":"F05","company":"天晴興業有限公司","name":"天晴彩虹蔬果昔—黑色元氣蔬果昔","category":"飲品(即飲)","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770857735_3977.jpg","year":2026},{"id":"F06","company":"全家便利商店股份有限公司","name":"100%鮮榨椪柑原汁","category":"飲品(即飲)","nutrition":"","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772606765_127201667.png","year":2026},{"id":"F07","company":"佳美食品工業股份有限公司","name":"綠拿鐵","category":"飲品(即飲)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772595677_127203928.png","year":2026},{"id":"F13","company":"活力東勢股份有限公司","name":"黃胡蘿蔔綜合蔬果汁","category":"飲品(即飲)","nutrition":"","texture":"純液體","award":"","img":"","year":2026},{"id":"F15","company":"光泉牧場股份有限公司","name":"台灣鮮豆漿-低糖","category":"飲品(即飲)","nutrition":"","texture":"純液體","award":"","img":"","year":2026},{"id":"F16","company":"茶月食品","name":"本島豆漿","category":"飲品(即飲)","nutrition":"","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772589238_127203848.jpg","year":2026},{"id":"F17","company":"安心食品服務股份有限公司","name":"摩斯豆奶(黑芝麻含糖)","category":"飲品(即飲)","nutrition":"","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771915230_127200019.jpg","year":2026},{"id":"F18","company":"安心食品服務股份有限公司","name":"摩斯冰糖銀耳露","category":"飲品(即飲)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"","year":2026},{"id":"F19","company":"台灣美路達冷凍綜合系統有限公司","name":"美養堂養生黑木耳露","category":"飲品(即飲)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770863554_127203905.jpg","year":2026},{"id":"F20","company":"菇神有限公司","name":"菇神-玄耳初採黑木耳","category":"飲品(即飲)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772689168_127203953.jpg","year":2026},{"id":"F21","company":"保證責任宜蘭縣行健有機農產生產合作社","name":"行健米有機純米漿(原味)","category":"飲品(即飲)","nutrition":"","texture":"純液體","award":"","img":"","year":2026},{"id":"F24","company":"吉瑞世實業有限公司","name":"靈芝纖涼茶","category":"飲品(即飲)","nutrition":"膳食纖維","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772682612_127200479.jpg","year":2026},{"id":"F25","company":"食之味有限公司","name":"food+機能蛋白蔬果昔 大麥苗香蕉晚安特調","category":"飲品(沖泡)","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772700329_127203907.jpg","year":2026},{"id":"F26","company":"舞茶實業有限公司","name":"補鐵烏金黑豆特調-黑豆蛋白粉","category":"飲品(沖泡)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772510182_127203846.jpg","year":2026},{"id":"F27","company":"馬可先生食品企業股份有限公司","name":"五行五色蔬菜精力粉","category":"飲品(沖泡)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1767583110_127201415.png","year":2026},{"id":"G01","company":"米大師美食生技股份有限公司","name":"池上香米白粥","category":"點心(即食)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772530897_4114.jpg","year":2026},{"id":"G02","company":"好美農漁產業有限公司","name":"好美蛤蜊麥糙","category":"點心(即食)","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772687597_127203866.jpg","year":2026},{"id":"G03","company":"聯夏食品工業股份有限公司","name":"U+ 和風鮭魚粥","category":"點心(即食)","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771814065_199.jpg","year":2026},{"id":"G04","company":"大龍粥食品有限公司","name":"元氣鱸魚粥","category":"點心(即食)","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772766268_127203951.JPG","year":2026},{"id":"G05","company":"大龍粥食品有限公司","name":"香菇赤肉粥","category":"點心(即食)","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772766694_127203951.JPG","year":2026},{"id":"G07","company":"寶島手路菜有限公司","name":"康福補粥 滴雞精+鱸魚精口味","category":"點心(即食)","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770786013_127203913.jpg","year":2026},{"id":"G11","company":"高雄空廚股份有限公司","name":"法式白醬洋芋","category":"點心(即食)","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772607492_127203933.png","year":2026},{"id":"G13","company":"保證責任雲林縣新湖合作農場","name":"鮮蝦蛋沙拉","category":"點心(即食)","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"G16","company":"屏榮食品股份有限公司","name":"長野稻荷壽司","category":"點心(即食)","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770707608_127201637.jpg","year":2026},{"id":"G17","company":"屏榮食品股份有限公司","name":"經典鮪魚沙拉細卷","category":"點心(即食)","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770707608_127201637.jpg","year":2026},{"id":"G20","company":"溪和食品有限公司","name":"冷凍魩仔魚蘿蔔糕","category":"點心(即食)","nutrition":"","texture":"容易咀嚼","award":"金饌獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771416234_127201679.png","year":2026},{"id":"G22","company":"福穀樂生技股份有限公司","name":"黑皮芝麻包","category":"點心(即食)","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770947973_127201652.jpg","year":2026},{"id":"G23","company":"福穀樂生技股份有限公司","name":"地瓜雜糧饅頭","category":"點心(即食)","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770947973_127201652.jpg","year":2026},{"id":"G24","company":"福穀樂生技股份有限公司","name":"香芋雜糧饅頭","category":"點心(即食)","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770947973_127201652.jpg","year":2026},{"id":"G25","company":"統一企業股份有限公司","name":"統一蛋糕屋蒸果子牛奶戚風","category":"點心(即食)","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"包裝友善獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1769767276_19.jpg","year":2026},{"id":"G27","company":"福比股份有限公司","name":"綿蜜雪花蛋糕","category":"點心(即食)","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"","img":"","year":2026},{"id":"G29","company":"帆船食品廠","name":"紅豆紫米粥","category":"點心(即食)","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771912577_3685.png","year":2026},{"id":"G30","company":"曼妮精緻有限公司","name":"曼妮ê灶咖 甘露暖心粥","category":"點心(即食)","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772605655_127203915.jpg","year":2026},{"id":"G33","company":"瓜瓜園企業股份有限公司","name":"甘梅薯條","category":"點心(即食)","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772591573_127203918.jpg","year":2026},{"id":"G34","company":"奇美食品股份有限公司","name":"不黏的圓仔粿","category":"點心(即食)","nutrition":"","texture":"容易咀嚼","award":"金饌獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772781372_713.jpg","year":2026},{"id":"G35","company":"義美食品股份有限公司","name":"義美鮮の奶酪","category":"點心(即食)","nutrition":"","texture":"舌頭壓碎","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772762783_4107.jpg","year":2026},{"id":"G36","company":"中華海洋生技股份有限公司","name":"褐藻高纖蛋白沖泡粥-活力野菜","category":"點心(沖泡)","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772529299_4080.png","year":2026},{"id":"G37","company":"回甘人生股份有限公司","name":"大豆蛋白杏仁麥片粥","category":"點心(沖泡)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772587088_127201694.jpg","year":2026},{"id":"G38","company":"回甘人生股份有限公司","name":"大豆蛋白野菇燕麥粥","category":"點心(沖泡)","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772587114_127201694.jpg","year":2026},{"id":"G39","company":"京工興業有限公司","name":"京工臘八蔬食粥","category":"點心(沖泡)","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770024358_127201116.jpg","year":2026},{"id":"G40","company":"京工興業有限公司","name":"南瓜蔬食粥","category":"點心(沖泡)","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1770862415_127201077.jpg","year":2026},{"id":"G28","company":"福比股份有限公司","name":"綿乳杯子蛋糕","category":"休閒食品","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"","img":"","year":2026},{"id":"H01","company":"金嘉隆企業股份有限公司","name":"所長茶葉蛋 夯蛋白(烤蛋白)-醬燒","category":"休閒食品","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772690373_692.jpg","year":2026},{"id":"H02","company":"金嘉隆企業股份有限公司","name":"所長茶葉蛋 靜岡焙茶蛋","category":"休閒食品","nutrition":"蛋白質及熱量","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772690654_692.jpg","year":2026},{"id":"H06","company":"廣達香食品股份有限公司","name":"鬆米菓-肉鬆口味","category":"休閒食品","nutrition":"","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"H07","company":"久久津乳酪本舖","name":"黑松露洋菇米餅","category":"休閒食品","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771645985_127201617.jpg","year":2026},{"id":"H09","company":"統百食品股份有限公司","name":"烤海苔原味","category":"休閒食品","nutrition":"","texture":"容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1768180218_712.jpg","year":2026},{"id":"H15","company":"陳家庄農園","name":"陳家庄米餅(原味)","category":"休閒食品","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772682577_127203939.jpg","year":2026},{"id":"H21","company":"有限責任台灣主婦聯盟生活消費合作社","name":"本土花生脆粒豆漿冰淇淋","category":"休閒食品","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"商業潛力獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772589868_127200519.jpg","year":2026},{"id":"H23","company":"禾園生物科技有限公司","name":"小白鯨-香蕉牛奶DIY手作凍品","category":"休閒食品","nutrition":"","texture":"牙齦咀嚼","award":"","img":"","year":2026},{"id":"H24","company":"禾園生物科技有限公司","name":"小白鯨-紅豆DIY手作凍品","category":"休閒食品","nutrition":"","texture":"舌頭壓碎","award":"質地友善獎","img":"","year":2026},{"id":"I01","company":"有限責任台灣主婦聯盟生活消費合作社","name":"經典原味醃漬雞腿排","category":"RTC食材","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772601301_127200519.jpg","year":2026},{"id":"I02","company":"溪和食品有限公司","name":"野生胭脂蝦仁","category":"RTC食材","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771416234_127201679.png","year":2026},{"id":"J02","company":"再生體健康生技股份有限公司","name":"新腦利新莎莎醬","category":"調味品","nutrition":"","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772598833_127203942.jpg","year":2026},{"id":"J03","company":"味榮食品工業股份有限公司","name":"有機米麴味噌","category":"調味品","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"","year":2026},{"id":"J04","company":"味榮食品工業股份有限公司","name":"國產極釀味噌","category":"調味品","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"","year":2026},{"id":"J05","company":"味榮食品工業股份有限公司","name":"有機黃金甘薯味噌","category":"調味品","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"","year":2026},{"id":"J07","company":"溪和食品有限公司","name":"海鱻味調味粉","category":"調味品","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771416234_127201679.png","year":2026},{"id":"K01","company":"二十一世紀生活事業股份有限公司","name":"21Plus主廚烤雞時蔬餐","category":"餐食","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772603320_127203900.png","year":2026},{"id":"K04","company":"統一超食代股份有限公司","name":"增雞蛋白餐","category":"餐食","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772696521_127203912.jpg","year":2026},{"id":"K06","company":"聯華食品工業股份有限公司","name":"豆酥烤魚鮮蔬餐盒","category":"餐食","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"包裝友善獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771896358_127203906.jpg","year":2026},{"id":"K07","company":"全家便利商店股份有限公司","name":"蔬活腿排補力餐盒","category":"餐食","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"營養友善獎","img":"","year":2026},{"id":"K08","company":"全家便利商店股份有限公司","name":"金咖哩果香甘口咖哩飯","category":"餐食","nutrition":"","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"K09","company":"全家便利商店股份有限公司","name":"港式香滑嫩蛋牛肉燴飯","category":"餐食","nutrition":"","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"K12","company":"晉欣食品股份有限公司","name":"美味蟹煲","category":"餐食","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1771927233_127201638.jpg","year":2026},{"id":"K13","company":"長家國際食品股份有限公司","name":"沙茶豬肉炒麵","category":"餐食","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"K14","company":"長家國際食品股份有限公司","name":"府城鹽水意麵","category":"餐食","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"","img":"","year":2026},{"id":"K16","company":"馬可先生食品企業股份有限公司","name":"高麗菜鮮肉雜糧水餃","category":"餐食","nutrition":"蛋白質及熱量","texture":"未達容易咀嚼","award":"營養友善獎","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1768894354_127201415.png","year":2026},{"id":"L01","company":"大成長城企業股份有限公司","name":"益活雞熬雞精","category":"其他","nutrition":"","texture":"純液體","award":"","img":"","year":2026},{"id":"L02","company":"興宇食品有限公司","name":"RUYI 金滑菇滴雞精","category":"其他","nutrition":"","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772630349_127203850.jpg","year":2026},{"id":"L04","company":"昇樺食品有限公司","name":"田記溫體鮮雞精(常溫)","category":"其他","nutrition":"","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1767862349_127203755.jpg","year":2026},{"id":"L07","company":"江夏堂企業有限公司","name":"精萃飲 滴羊精","category":"其他","nutrition":"","texture":"純液體","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772681216_127203644.jpg","year":2026},{"id":"L08","company":"福和生鮮農產股份有限公司","name":"番茄","category":"其他","nutrition":"","texture":"未達容易咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772586046_127203960.jpg","year":2026},{"id":"L09","company":"大花農場","name":"給麗U有機高麗菜粉","category":"其他","nutrition":"蛋白質及熱量","texture":"牙齦咀嚼","award":"","img":"https://eatender.firdi.org.tw/uploads/contest/20260101/1772766733_127203801.png","year":2026},
+{"id": "2025_A05", "company": "佳格食品股份有限公司", "name": "桂格完膳營養軟質餐-芋香豬肉燉飯", "category": "主食", "year": 2025, "nutrition": "膳食纖維", "texture": "舌頭壓碎", "award": "商業潛力獎(系列)", "img": ""}, {"id": "2025_A06", "company": "佳格食品股份有限公司", "name": "桂格完膳營養軟質餐-麻油香雞燉飯", "category": "主食", "year": 2025, "nutrition": "膳食纖維", "texture": "舌頭壓碎", "award": "商業潛力獎(系列)", "img": ""}, {"id": "2025_A08", "company": "晉欣食品股份有限公司", "name": "大口歐風漢堡排佐焙煎咖哩飯糰", "category": "主食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737625545_127201638.jpg"}, {"id": "2025_A09", "company": "晉欣食品股份有限公司", "name": "大口美式牛肉堡飯糰", "category": "主食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737625545_127201638.jpg"}, {"id": "2025_A10", "company": "晉欣食品股份有限公司", "name": "優質池上飯", "category": "主食", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737625545_127201638.jpg"}, {"id": "2025_A12", "company": "義美食品股份有限公司", "name": "義美素食炒飯", "category": "主食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739254655_4107.JPG"}, {"id": "2025_A13", "company": "米大師美食生技股份有限公司", "name": "常溫熟飯-地瓜飯", "category": "主食", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738899691_4114.jpg"}, {"id": "2025_A14", "company": "米大師美食生技股份有限公司", "name": "純高湯粥-田園滑蛋雞湯粥", "category": "主食", "year": 2025, "nutrition": "", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738899691_4114.jpg"}, {"id": "2025_A15", "company": "佳醫創照健康股份有限公司", "name": "稀飯PLUS", "category": "主食", "year": 2025, "nutrition": "", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739350159_127200459.png"}, {"id": "2025_A16", "company": "佳醫創照健康股份有限公司", "name": "雜糧含纖稀飯", "category": "主食", "year": 2025, "nutrition": "膳食纖維", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739350209_127200459.png"}, {"id": "2025_A18", "company": "甜河谷醫藥生技股份有限公司", "name": "甜河谷高纖三麥蘋果粥", "category": "主食", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": ""}, {"id": "2025_A19", "company": "頂裕食品股份有限公司", "name": "飯友黃金味噌鯛魚粥", "category": "主食", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": ""}, {"id": "2025_A20", "company": "頂裕食品股份有限公司", "name": "飯友昆布蒜香牛肉粥", "category": "主食", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": ""}, {"id": "2025_A21", "company": "鮮湧企業股份有限公司", "name": "暖心粥品-綜合口味", "category": "主食", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "質地友善獎", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739182662_127200621.jpg"}, {"id": "2025_A23", "company": "連合發企業股份有限公司", "name": "雞汁油蔥手工麵線", "category": "主食", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": ""}, {"id": "2025_A25", "company": "長安食品有限公司", "name": "低鈉南瓜壽麵", "category": "主食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737789220_127201671.jpg"}, {"id": "2025_A26", "company": "陸仕企業股份有限公司", "name": "冷凍魚麵生麵", "category": "主食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739427012_127201577.jpg"}, {"id": "2025_B01", "company": "元進莊企業股份有限公司", "name": "【喫雞】香蒜洋蔥嫩雞胸 100g/份", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740377652_126.jpg"}, {"id": "2025_B02", "company": "元進莊企業股份有限公司", "name": "【喫雞】PuLi酒香嫩雞胸 100g/份", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740377725_126.jpg"}, {"id": "2025_B03", "company": "元進莊企業股份有限公司", "name": "【元采珍饌】蔗香鴨賞 200g/包", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740376056_126.jpg"}, {"id": "2025_B04", "company": "台灣卜蜂企業股份有限公司", "name": "寶島香蔥雞柳條", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "營養友善獎", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739250556_127201057.png"}, {"id": "2025_B05", "company": "台灣卜蜂企業股份有限公司", "name": "戀之玫瑰鹽雞柳條", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739250556_127201057.png"}, {"id": "2025_B06", "company": "金豐盛食品股份有限公司", "name": "金豐盛-古早味香滷嫩雞胸", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740357488_127201663.jpg"}, {"id": "2025_B07", "company": "金豐盛食品股份有限公司", "name": "金豐盛-泰式香檸嫩雞胸", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740360943_127201663.jpg"}, {"id": "2025_B08", "company": "金豐盛食品股份有限公司", "name": "金豐盛-秘香椒麻嫩雞胸", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740363935_127201663.jpg"}, {"id": "2025_B09", "company": "金豐盛食品股份有限公司", "name": "金豐盛-蔥薑海南雞風味雞Q丸", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740365011_127201663.jpg"}, {"id": "2025_B10", "company": "金豐盛食品股份有限公司", "name": "金豐盛－蒜香紐奧良風味雞Q丸", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740366583_127201663.jpg"}, {"id": "2025_B11", "company": "喬元手創食品有限公司", "name": "原味海鹽舒肥雞胸", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739941709_127200536.jpg"}, {"id": "2025_B13", "company": "鮮湧企業股份有限公司", "name": "炭烤雞排", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "金饌獎", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739182662_127200621.jpg"}, {"id": "2025_B14", "company": "鮮湧企業股份有限公司", "name": "古早味肉排", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739182662_127200621.jpg"}, {"id": "2025_B16", "company": "屏榮實業股份有限公司", "name": "鰻丼便利包", "category": "主菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740446121_4054.jpg"}, {"id": "2025_B18", "company": "吉康食品", "name": "鹹魚雞茸豆腐煲", "category": "主菜", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": ""}, {"id": "2025_C06", "company": "吉口吉口貿易有限公司", "name": "辣味豆哥 傳統肉燥", "category": "配菜", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": ""}, {"id": "2025_C08", "company": "青葉食品工業股份有限公司", "name": "青葉雞肉飯料", "category": "配菜", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": ""}, {"id": "2025_C10", "company": "青葉食品工業股份有限公司", "name": "青葉Q彈花生麵筋", "category": "配菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": ""}, {"id": "2025_C13", "company": "新東陽股份有限公司", "name": "新東陽台灣黑豬滷肉", "category": "配菜", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740642140_411.jpg"}, {"id": "2025_C14", "company": "新東陽股份有限公司", "name": "活力生雙潔淨純豬肉鬆", "category": "配菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740642159_411.jpg"}, {"id": "2025_C15", "company": "新東陽股份有限公司", "name": "活力生雙潔淨海苔純肉鬆", "category": "配菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740642182_411.jpg"}, {"id": "2025_C16", "company": "廣達香食品股份有限公司", "name": "mini鬆 果仁純肉鬆", "category": "配菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737688314_652.jpg"}, {"id": "2025_C22", "company": "佳格食品股份有限公司", "name": "桂格完膳營養軟質餐-羅勒茄汁嫩豬丁", "category": "配菜", "year": 2025, "nutrition": "膳食纖維", "texture": "容易咀嚼", "award": "", "img": ""}, {"id": "2025_C23", "company": "佳格食品股份有限公司", "name": "桂格完膳營養軟質餐-蒜味胡椒嫩雞丁", "category": "配菜", "year": 2025, "nutrition": "膳食纖維", "texture": "容易咀嚼", "award": "營養友善獎", "img": ""}, {"id": "2025_C26", "company": "福記冷凍食品股份有限公司", "name": "石垣鹽質白蛋", "category": "配菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737596346_124.png"}, {"id": "2025_C27", "company": "福記冷凍食品股份有限公司", "name": "一顆蛋沙拉", "category": "配菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "包裝友善獎", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737596942_124.png"}, {"id": "2025_C29", "company": "​薩摩亞商​濱線水產股份有限公司​台灣分公司", "name": "魚饌食鮪魚肉燥(原味)", "category": "配菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1736328047_127201049.jpg"}, {"id": "2025_C31", "company": "鮮湧企業股份有限公司", "name": "醬醬好--萬用醬綜合口味", "category": "調味品", "year": 2025, "nutrition": "", "texture": "舌頭壓碎", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739182662_127200621.jpg"}, {"id": "2025_C32", "company": "鮮湧企業股份有限公司", "name": "菜菜多-綜合口味", "category": "配菜", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "舌頭壓碎", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739182662_127200621.jpg"}, {"id": "2025_D02", "company": "永昇冷凍食品工業股份有限公司", "name": "壹然毛豆奶香濃湯", "category": "湯品", "year": 2025, "nutrition": "膳食纖維", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740706016_127201702.PNG"}, {"id": "2025_D03", "company": "吉康食品", "name": "菌菇堅果濃湯", "category": "湯品", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": ""}, {"id": "2025_E01", "company": "台灣牧場股份有限公司", "name": "母傳頂級嚴選鮮乳優格", "category": "乳品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738743812_489.jpg"}, {"id": "2025_E02", "company": "台灣牧場股份有限公司", "name": "六甲田莊原味優格", "category": "乳品", "year": 2025, "nutrition": "", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738743835_489.jpg"}, {"id": "2025_E03", "company": "有限責任台灣主婦聯盟生活消費合作社", "name": "生乳希臘式濃縮優格", "category": "乳品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "舌頭壓碎", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739164751_127200519.jpg"}, {"id": "2025_E04", "company": "馬可先生食品企業股份有限公司", "name": "馬可優格", "category": "乳品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "無須咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738833115_127201415.jpg"}, {"id": "2025_E05", "company": "隆昌食品有限公司", "name": "雪比潤優格-蜂蜜亞麻仁油", "category": "乳品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "無須咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738555223_693.jpg"}, {"id": "2025_E06", "company": "隆昌食品有限公司", "name": "雪比半熟乳酪(原味)", "category": "乳品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738555223_693.jpg"}, {"id": "2025_E07", "company": "味全食品工業股份有限公司", "name": "林鳳營希臘式優格-130g", "category": "乳品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "舌頭壓碎", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737353372_683.PNG"}, {"id": "2025_E08", "company": "味全食品工業股份有限公司", "name": "萬丹保久乳(脂肪無調整)", "category": "乳品", "year": 2025, "nutrition": "鈣", "texture": "純液體", "award": "", "img": ""}, {"id": "2025_E09", "company": "統一企業股份有限公司", "name": "統一常溫牛乳", "category": "乳品", "year": 2025, "nutrition": "鈣", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1736315822_19.png"}, {"id": "2025_E10", "company": "義美食品股份有限公司", "name": "義美高鈣營養牛乳", "category": "乳品", "year": 2025, "nutrition": "鈣", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738636979_4107.JPG"}, {"id": "2025_E11", "company": "義美食品股份有限公司", "name": "義美無乳糖全脂鮮乳", "category": "乳品", "year": 2025, "nutrition": "鈣", "texture": "純液體", "award": "", "img": ""}, {"id": "2025_E12", "company": "四方乳品工業股份有限公司", "name": "四方鮮乳-莫札瑞拉起司", "category": "乳品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "食材創新獎", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738721112_127200982.jpg"}, {"id": "2025_E13", "company": "全越運動事業股份有限公司", "name": "Betery乳清蛋白(芝麻)", "category": "乳品", "year": 2025, "nutrition": "鈣", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737509553_127200957.jpg"}, {"id": "2025_F02", "company": "世曜實業股份有限公司", "name": "澎沛無糖黑木耳飲", "category": "飲品(即飲)", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739699178_127201699.jpg"}, {"id": "2025_F03", "company": "世曜實業股份有限公司", "name": "澎沛無糖白木耳飲", "category": "飲品(即飲)", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739699178_127201699.jpg"}, {"id": "2025_F04", "company": "有幾園生物科技股份有限公司", "name": "康健生機有機百合銀耳膠原飲290ml", "category": "飲品(即飲)", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "", "img": ""}, {"id": "2025_F05", "company": "宣美國際股份有限公司", "name": "優補達人牛蒡海礦雪耳", "category": "飲品(即飲)", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738906167_723.jpg"}, {"id": "2025_F15", "company": "活力東勢股份有限公司", "name": "純胡蘿蔔汁", "category": "飲品(即飲)", "year": 2025, "nutrition": "", "texture": "純液體", "award": "質地友善獎(系列)", "img": ""}, {"id": "2025_F16", "company": "活力東勢股份有限公司", "name": "胡蘿蔔綜合蔬果汁", "category": "飲品(即飲)", "year": 2025, "nutrition": "", "texture": "純液體", "award": "質地友善獎(系列)", "img": ""}, {"id": "2025_F19", "company": "深巷老貓企業社", "name": "別貳小嘴 紅豆黑糙米飲", "category": "飲品(即飲)", "year": 2025, "nutrition": "", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740578406_127201746.jpg"}, {"id": "2025_F21", "company": "潤泉國際企業有限公司", "name": "潤之泉甘糀", "category": "飲品(即飲)", "year": 2025, "nutrition": "", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737353863_131.jpg"}, {"id": "2025_F32", "company": "嘉懋食品企業有限公司", "name": "活力陽光-有機糙米粉", "category": "飲品(沖泡)", "year": 2025, "nutrition": "", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739166952_127201683.jpg"}, {"id": "2025_F33", "company": "嘉懋食品企業有限公司", "name": "活力陽光-有機小麥粉", "category": "飲品(沖泡)", "year": 2025, "nutrition": "", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739166952_127201683.jpg"}, {"id": "2025_F36", "company": "麗多國際生技股份有限公司", "name": "肯寶KB99生機10穀營養奶", "category": "飲品(沖泡)", "year": 2025, "nutrition": "膳食纖維", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739175150_127201664.jpg"}, {"id": "2025_F40", "company": "石城實業股份有限公司", "name": "紫米芝麻糊", "category": "飲品(沖泡)", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739861511_127200425.jpg"}, {"id": "2025_F43", "company": "石城實業股份有限公司", "name": "五穀滋養茶", "category": "飲品(沖泡)", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739860599_127200425.jpg"}, {"id": "2025_F48", "company": "將軍企業社", "name": "3A美-植物飲", "category": "飲品(沖泡)", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "", "img": ""}, {"id": "2025_F50", "company": "永昇冷凍食品工業股份有限公司", "name": "壹然毛豆植物蛋白飲", "category": "飲品(沖泡)", "year": 2025, "nutrition": "膳食纖維", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740704876_127201702.PNG"}, {"id": "2025_F51", "company": "有限責任台灣主婦聯盟生活消費合作社", "name": "綜合植物蛋白沖調粉", "category": "飲品(沖泡)", "year": 2025, "nutrition": "膳食纖維", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1736148455_127200519.jpg"}, {"id": "2025_F52", "company": "宏旺食品有限公司", "name": "杏仁蓮藕蛋白飲", "category": "飲品(沖泡)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737196717_444.png"}, {"id": "2025_F53", "company": "MIHONG®米鴻生醫有限公司", "name": "MIHONG®高效燕麥奶-濃奶黑豆", "category": "飲品(沖泡)", "year": 2025, "nutrition": "", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1736820447_127201541.jpg"}, {"id": "2025_F54", "company": "誠安和生技有限公司", "name": "日幸 力肌補（紫米香椰）", "category": "飲品(沖泡)", "year": 2025, "nutrition": "鈣", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740654961_3895.jpg"}, {"id": "2025_F56", "company": "馬可先生食品企業股份有限公司", "name": "五蔬果精力粉", "category": "飲品(沖泡)", "year": 2025, "nutrition": "", "texture": "無須咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739349743_127201415.png"}, {"id": "2025_F58", "company": "台灣常溫股份有限公司", "name": "Dr. Ginger薑博士 秋葵水", "category": "飲品(沖泡)", "year": 2025, "nutrition": "", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738726307_127201665.png"}, {"id": "2025_G01", "company": "憶霖紀文股份有限公司", "name": "紀文 陽光雙豆豆腐麵", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "質地友善獎", "img": ""}, {"id": "2025_G04", "company": "吉康食品", "name": "紫薯地瓜粥糜", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": ""}, {"id": "2025_G05", "company": "佳醫創照健康股份有限公司", "name": "懷舊小米粥", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "純液體", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739350252_127200459.png"}, {"id": "2025_G07", "company": "濬詮股份有限公司", "name": "捷捷樂齡食品-薑薑好虱目魚粥", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "", "img": ""}, {"id": "2025_G10", "company": "藻安生技有限公司", "name": "飽餐-咖哩海味粥(IDDSI 5) 銀髮友善軟質餐", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "商業潛力獎(系列)", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1736147936_127200046.PNG"}, {"id": "2025_G11", "company": "藻安生技有限公司", "name": "飽餐-胚芽番茄雞茸粥(IDDSI 5) 銀髮友善軟質餐", "category": "點心(即食)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "舌頭壓碎", "award": "商業潛力獎(系列)", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1736147936_127200046.PNG"}, {"id": "2025_G12", "company": "藻安生技有限公司", "name": "飽餐-野蔬豆腐營養粥(IDDSI 5) 銀髮友善軟質餐", "category": "點心(即食)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "舌頭壓碎", "award": "商業潛力獎(系列)", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1736147936_127200046.PNG"}, {"id": "2025_G13", "company": "中華海洋生技股份有限公司", "name": "青花椒鱻魚糙米粥", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739001386_4080.jpg"}, {"id": "2025_G14", "company": "米大師美食生技股份有限公司", "name": "純高湯粥-筍香吻仔魚粥", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738899691_4114.jpg"}, {"id": "2025_G15", "company": "海安生物科技股份有限公司", "name": "元氣滿鰻粥", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "舌頭壓碎", "award": "質地友善獎", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738652492_127201632.png"}, {"id": "2025_G19", "company": "青葉食品工業股份有限公司", "name": "青葉紅豆湯", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "包裝友善獎", "img": ""}, {"id": "2025_G27", "company": "福穀樂生技股份有限公司", "name": "蔬香雲絲包", "category": "點心(即食)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739260338_127201652.jpg"}, {"id": "2025_G28", "company": "福穀樂生技股份有限公司", "name": "奶油紅豆包", "category": "點心(即食)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739263088_127201652.jpg"}, {"id": "2025_G29", "company": "福穀樂生技股份有限公司", "name": "爆漿香芋包", "category": "點心(即食)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739264438_127201652.jpg"}, {"id": "2025_G30", "company": "福穀樂生技股份有限公司", "name": "快樂豬香蔥肉包", "category": "點心(即食)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739265182_127201652.jpg"}, {"id": "2025_G31", "company": "福穀樂生技股份有限公司", "name": "黃金咖哩鮮肉包", "category": "點心(即食)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739265182_127201652.jpg"}, {"id": "2025_G37", "company": "福比股份有限公司", "name": "紅豆麵包", "category": "點心(即食)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": ""}, {"id": "2025_G39", "company": "福比股份有限公司", "name": "芋泥金沙麻吉麵包", "category": "點心(即食)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": ""}, {"id": "2025_G41", "company": "統一企業股份有限公司", "name": "統一蛋糕屋蒸果子乳酪戚風", "category": "點心(即食)", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740636324_19.jpg"}, {"id": "2025_G43", "company": "四方乳品工業股份有限公司", "name": "四方鮮乳-巧克力鮮奶酪", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "舌頭壓碎", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738721112_127200982.jpg"}, {"id": "2025_G44", "company": "味全食品工業股份有限公司", "name": "醇奶布丁", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "舌頭壓碎", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740380407_127201730.PNG"}, {"id": "2025_G45", "company": "奇美食品股份有限公司", "name": "好吞嚥超嫩水果凍_芭樂", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "舌頭壓碎", "award": "包裝友善獎(系列)", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740380292_713.jpg"}, {"id": "2025_G46", "company": "奇美食品股份有限公司", "name": "好吞嚥超嫩水果凍_荔枝", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "舌頭壓碎", "award": "包裝友善獎(系列)", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740387102_713.jpg"}, {"id": "2025_G47", "company": "奇美食品股份有限公司", "name": "好吞嚥超嫩水果凍_鳳梨", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "舌頭壓碎", "award": "包裝友善獎(系列)", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740460735_127200496.png"}, {"id": "2025_G48", "company": "奇美食品股份有限公司", "name": "好吞嚥超嫩水果凍_椪柑", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "舌頭壓碎", "award": "金饌獎", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740462718_127200496.png"}, {"id": "2025_G49", "company": "奇美食品股份有限公司", "name": "好吞嚥超嫩水果凍_葡萄", "category": "點心(即食)", "year": 2025, "nutrition": "", "texture": "舌頭壓碎", "award": "包裝友善獎(系列)", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740463423_127200496.png"}, {"id": "2025_G50", "company": "桃園市農會", "name": "新纖美日-黃金地瓜粥", "category": "點心(沖泡)", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740021165_127200870.jpg"}, {"id": "2025_G51", "company": "嘉懋食品企業有限公司", "name": "活力陽光-五穀燕麥蔬菜粥", "category": "點心(沖泡)", "year": 2025, "nutrition": "膳食纖維", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739166952_127201683.jpg"}, {"id": "2025_H02", "company": "玉山鑫有限公司", "name": "綜合蔬果米棒棒", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740710735_143.jpg"}, {"id": "2025_H03", "company": "玉山鑫有限公司", "name": "綜合蔬果米粒粒40g", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740710735_143.jpg"}, {"id": "2025_H06", "company": "滄聯農產行", "name": "豐滄米香-台灣芝麻", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": ""}, {"id": "2025_H07", "company": "桃園市農會", "name": "新纖美日-黃金地瓜脆片", "category": "休閒食品", "year": 2025, "nutrition": "膳食纖維", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740021165_127200870.jpg"}, {"id": "2025_H08", "company": "勤賀國際有限公司", "name": "海鹽焦糖薏仁", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1736488490_127201630.png"}, {"id": "2025_H09", "company": "德朱利斯國際食品有限公司", "name": "德朱利斯 玉米脆脆", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740552911_4151.jpg"}, {"id": "2025_H17", "company": "華宥企業有限公司", "name": "珍田芝麻糕-原味芝麻(全素)", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740394442_127201692.jpg"}, {"id": "2025_H19", "company": "集鹿農場", "name": "洋菇餅乾-椒鹽口味", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740317091_127201727.jpg"}, {"id": "2025_H20", "company": "集鹿農場", "name": "洋菇餅乾-蒜香奶油口味", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740317091_127201727.jpg"}, {"id": "2025_H21", "company": "集鹿農場", "name": "洋菇餅乾-塔香口味", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740317091_127201727.jpg"}, {"id": "2025_H23", "company": "高山兄弟企業社", "name": "花生醬蛋捲", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737183216_127201103.jpg"}, {"id": "2025_H27", "company": "豆之家食品科技股份有限公司", "name": "土芒果青鮮果乾", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739513193_127201691.jpg"}, {"id": "2025_H32", "company": "義美食品股份有限公司", "name": "義美仙草凍", "category": "休閒食品", "year": 2025, "nutrition": "", "texture": "牙齦咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738636979_4107.JPG"}, {"id": "2025_H33", "company": "金嘉隆企業股份有限公司", "name": "所長茶葉蛋 蛋白執(滷蛋白磚)-椒鹽", "category": "休閒食品", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737627926_692.jpg"}, {"id": "2025_H35", "company": "福記冷凍食品股份有限公司", "name": "日式滷蛋(雞蛋)", "category": "休閒食品", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737439001_124.png"}, {"id": "2025_I01", "company": "有限責任台灣主婦聯盟生活消費合作社", "name": "台灣黑豬漢堡排", "category": "RTC食材", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739842241_127200519.jpg"}, {"id": "2025_I02", "company": "黑橋牌企業股份有限公司", "name": "原味台灣小香腸", "category": "RTC食材", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739795995_159.jpg"}, {"id": "2025_I03", "company": "聯夏食品工業股份有限公司", "name": "U+ 豬肉軟排(冷凍)", "category": "RTC食材", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "舌頭壓碎", "award": "質地友善獎(系列)", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740563319_199.jpg"}, {"id": "2025_I04", "company": "聯夏食品工業股份有限公司", "name": "U+ 雞肉軟排(冷凍)", "category": "RTC食材", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "舌頭壓碎", "award": "質地友善獎(系列)", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740563168_199.jpg"}, {"id": "2025_I05", "company": "聯夏食品工業股份有限公司", "name": "U+ 鮭魚軟排(冷凍)", "category": "RTC食材", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "舌頭壓碎", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740562679_199.jpg"}, {"id": "2025_I06", "company": "聯夏食品工業股份有限公司", "name": "U+ 白肉魚軟排(冷凍)", "category": "RTC食材", "year": 2025, "nutrition": "", "texture": "舌頭壓碎", "award": "質地友善獎(系列)", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740562930_199.jpg"}, {"id": "2025_I09", "company": "興旺國際股份有限公司", "name": "佳時鱻-石斑魚涮涮鱻(南瓜鮮高湯)", "category": "RTC食材", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "商業潛力獎", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740532973_127201732.jpg"}, {"id": "2025_I10", "company": "興旺國際股份有限公司", "name": "佳時鱻-石斑魚涮涮鱻", "category": "RTC食材", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740532973_127201732.jpg"}, {"id": "2025_I14", "company": "高雄市興達港區漁會", "name": "大興魚市場-海菜魩仔魚組", "category": "RTC食材", "year": 2025, "nutrition": "", "texture": "容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740650763_127201748.jpg"}, {"id": "2025_I16", "company": "集鹿農場", "name": "乾燥洋菇", "category": "RTC食材", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740317091_127201727.jpg"}, {"id": "2025_K01", "company": "全家便利商店股份有限公司", "name": "烤蛋白餐盒", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "包裝友善獎", "img": ""}, {"id": "2025_K02", "company": "全家便利商店股份有限公司", "name": "健身G肉餐盒", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "營養友善獎", "img": ""}, {"id": "2025_K03", "company": "全家便利商店股份有限公司", "name": "美式雞丁餐盒", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": ""}, {"id": "2025_K05", "company": "全家便利商店股份有限公司", "name": "壹號醬醬燒蔥鹽雞豚飯", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": ""}, {"id": "2025_K06", "company": "回甘人生股份有限公司", "name": "《灶神在家》獅子頭鱈魚銀牙餐", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "金饌獎(系列)", "img": ""}, {"id": "2025_K07", "company": "回甘人生股份有限公司", "name": "《灶神在家》糖醋雞鱈魚銀牙餐", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "容易咀嚼", "award": "金饌獎(系列)", "img": ""}, {"id": "2025_K09", "company": "屏榮食品股份有限公司", "name": "香辣醬乾拌麵", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1738803378_127201637.png"}, {"id": "2025_K10", "company": "長家國際食品股份有限公司", "name": "青醬雞肉義大利麵", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739169208_127201660.jpg"}, {"id": "2025_K12", "company": "長家國際食品股份有限公司", "name": "奶油培根義大利麵", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739511389_127201660.jpg"}, {"id": "2025_K13", "company": "晉欣食品股份有限公司", "name": "青花椒麻雞肉拌麵", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1737625545_127201638.jpg"}, {"id": "2025_K14", "company": "連合發企業股份有限公司", "name": "鹽水意麵", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": ""}, {"id": "2025_K15", "company": "得意中華食品有限公司", "name": "櫻花蝦干貝鰻魚米糕", "category": "餐食", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740643976_172.jpg"}, {"id": "2025_L01", "company": "翰岡國際股份有限公司", "name": "紅心芭樂", "category": "其他", "year": 2025, "nutrition": "", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739852494_127201678.jpg"}, {"id": "2025_L02", "company": "翰岡國際股份有限公司", "name": "履歷珍珠芭樂", "category": "其他", "year": 2025, "nutrition": "", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1739782767_127201678.jpg"}, {"id": "2025_L25", "company": "原菌烘焙坊", "name": "原菌-多穀物", "category": "其他", "year": 2025, "nutrition": "蛋白質及熱量", "texture": "未達容易咀嚼", "award": "", "img": "https://eatender.firdi.org.tw/uploads/contest/20250101/1740368676_127201726.jpg"}];
+
+// 初始化類別下拉
+const cats = [...new Set(PRODUCTS.map(p => p.category))].filter(Boolean).sort();
+const catSelect = document.getElementById('filter-category');
+cats.forEach(c => {
+  const o = document.createElement('option');
+  o.value = c; o.textContent = c;
+  catSelect.appendChild(o);
+});
+
+function getFilters() {
+  return {
+    nutrition: document.getElementById('filter-nutrition').value,
+    texture:   document.getElementById('filter-texture').value,
+    channel:   document.getElementById('filter-channel').value,
+    category:  document.getElementById('filter-category').value,
+    year:      document.getElementById('filter-year').value
+  };
+}
+
+function matchProduct(p, f) {
+  if (f.year && String(p.year) !== f.year) return false;
+  if (f.category && p.category !== f.category) return false;
+  if (f.nutrition) {
+    if (f.nutrition === 'none' && p.nutrition !== '') return false;
+    if (f.nutrition !== 'none' && p.nutrition !== f.nutrition) return false;
+  }
+  if (f.texture) {
+    if (f.texture === '未達質地規格') {
+      if (p.texture !== '純液體' && p.texture !== '未達容易咀嚼') return false;
+    } else {
+      if (p.texture !== f.texture) return false;
+    }
+  }
+  return true;
+}
+
+function placeholderHTML() {
+  return '<div class="card-img-placeholder"><span>產品圖片</span></div>';
+}
+
+function renderGrid() {
+  const f = getFilters();
+  const filtered = PRODUCTS.filter(p => matchProduct(p, f));
+  const grid = document.getElementById('product-grid');
+  const empty = document.getElementById('empty-state');
+  document.getElementById('result-num').textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map(p => {
+    // 示意稿：只有 base64 嵌入的真實圖片才顯示，其餘全部用文字佔位
+    // 工程師實作時請串接與 /award 相同圖片來源（欄位：p.img）
+    const imgHtml = (p.img && p.img.startsWith('data:'))
+      ? '<img src="' + p.img + '" alt="" loading="lazy"/>'
+      : placeholderHTML();
+    const awardTag = p.award ? '<div class="card-award">' + p.award + '</div>' : '';
+    const nutBadge = p.nutrition ? '<span class="badge badge-nutrition">' + p.nutrition + '</span>' : '';
+    const texShow = p.texture && p.texture !== '純液體' && p.texture !== '未達容易咀嚼';
+    const texBadge = texShow ? '<span class="badge badge-texture">' + p.texture + '</span>' : '';
+    return '<div class="product-card" data-id="' + p.id + '">'
+      + '<div class="card-img-wrap">' + imgHtml + awardTag + '</div>'
+      + '<div class="card-body">'
+      + '<div class="card-category">' + p.category + ' · ' + p.year + '年</div>'
+      + '<div class="card-name">' + p.name + '</div>'
+      + '<div class="card-badges">' + nutBadge + texBadge + '</div>'
+      + '</div></div>';
+  }).join('');
+
+  grid.querySelectorAll('img[data-fallback]').forEach(img => {
+    img.addEventListener('error', function() {
+      this.parentNode.innerHTML = placeholderHTML();
+    });
+  });
+}
+
+// 卡片點擊事件（event delegation）
+document.getElementById('product-grid').addEventListener('click', function(e) {
+  const card = e.target.closest('.product-card');
+  if (card) openModal(card.dataset.id);
+});
+
+function openModal(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+
+  // 圖片：只有 base64 嵌入的真實圖才顯示，其餘用文字佔位
+  const imgWrap = document.getElementById('modal-img-wrap');
+  if (p.img && p.img.startsWith('data:')) {
+    const img = document.createElement('img');
+    img.src = p.img;
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover';
+    img.onerror = function() { imgWrap.innerHTML = '<span>產品圖片</span>'; };
+    imgWrap.innerHTML = '';
+    imgWrap.appendChild(img);
+  } else {
+    imgWrap.innerHTML = '<span>產品圖片</span>';
+  }
+
+  // 基本資訊
+  document.getElementById('modal-award').innerHTML = p.award
+    ? '<div class="modal-award-tag">' + p.award + '</div>' : '';
+  document.getElementById('modal-name').textContent = p.name;
+  document.getElementById('modal-company').textContent = p.company;
+  document.getElementById('modal-category').textContent = '產品類別：' + p.category + '　' + p.year + ' 年獲選';
+
+  // 銀髮友善性
+  const certsEl = document.getElementById('modal-certs');
+  let certHtml = '';
+  if (p.nutrition) {
+    certHtml += '<div class="cert-pill nutrition"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>營養友善性：' + p.nutrition + '</div>';
+  }
+  const texShow = p.texture && p.texture !== '純液體' && p.texture !== '未達容易咀嚼';
+  if (texShow) {
+    certHtml += '<div class="cert-pill texture"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>質地規格：' + p.texture + '</div>';
+  }
+  certsEl.innerHTML = certHtml;
+
+  // 顯示/隱藏銀髮友善性區塊
+  const certSection = document.getElementById('modal-cert-section');
+  if (certSection) certSection.style.display = certHtml ? '' : 'none';
+
+  // 合作通路
+  const hasChannel = p.channels && p.channels.length > 0;
+  const channelsContent = document.getElementById('modal-channels-content');
+  if (channelsContent) {
+    if (hasChannel) {
+      channelsContent.innerHTML = '<div class="channel-demo">' +
+        p.channels.map(ch =>
+          '<a href="' + ch.url + '" target="_blank" class="channel-pill" style="opacity:1;cursor:pointer;text-decoration:none">' + ch.name + ' ↗</a>'
+        ).join('') + '</div>';
+    } else {
+      channelsContent.innerHTML = '<div class="channel-note"><strong>合作通路資料尚未建立。</strong><br>此欄位將顯示業者報名後的上架資訊與購買連結。<div class="channel-demo"><span class="channel-pill">通路名稱 ↗</span><span class="channel-pill">通路名稱 ↗</span></div></div>';
+    }
+  }
+  const channelSection = document.getElementById('modal-channel-section');
+  if (channelSection) channelSection.style.display = hasChannel ? '' : 'none';
+
+  // modal body 顯示控制
+  const modalBody = document.getElementById('modal-body');
+  const isEmpty = !certHtml && !hasChannel;
+  if (modalBody) modalBody.style.display = isEmpty ? 'none' : '';
+
+  // 查看產品介紹連結
+  const detailLink = document.getElementById('modal-detail-link');
+  if (detailLink) {
+    detailLink.href = p.awardUrl || 'https://eatender.firdi.org.tw/award';
+    detailLink.target = '_blank';
+  }
+
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) {
+    document.getElementById('modal-overlay').classList.remove('open');
+  }
+}
+
+function resetFilters() {
+  ['filter-nutrition','filter-texture','filter-channel','filter-category','filter-year'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  renderGrid();
+}
+
+['filter-nutrition','filter-texture','filter-channel','filter-category','filter-year'].forEach(id => {
+  document.getElementById(id).addEventListener('change', renderGrid);
+});
+
+renderGrid();
+</script>
+</body>
+</html>
